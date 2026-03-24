@@ -237,3 +237,19 @@ GitHub.sublime-settings
 .history
 
 # End of https://www.gitignore.io/api/python,sublimetext,pycharm+all,visualstudiocode
+
+# Project-specific
+# Virtual environment created in this workspace
+.venv/
+
+# Machine and editor files
+.DS_Store
+Thumbs.db
+
+# Dataset and outputs (large binary files)
+input_images/
+output_images/
+output_nonflip_images/
+
+# Pretrained model / large data
+shape_predictor_68_face_landmarks.dat

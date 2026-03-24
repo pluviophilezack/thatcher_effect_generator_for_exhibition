@@ -8,6 +8,7 @@ import pandas as pd
 
 INPUT_IMAGES_DIRECTORY_PATH = "input_images"
 OUTPUT_IMAGES_DIRECTORY_PATH = "output_images"
+OUTPUT_NONFLIP_IMAGE_PATH = "output_nonflip_images"
 ATTRIBUTES_CSV_PATH = "attributes.csv"
 ATTRIBUTES_CSV_DELIMITER = ","
 ATTRIBUTES_CSV_MAX_ROWS = 1000
@@ -101,11 +102,12 @@ def flip_subimage_ellipse_vertically_with_border_softening(image, x1, y1, x2, y2
 	blur_ellipse_border(image, x1, y1, x2, y2)
 
 
-def apply_thatcher_effect_on_image(input_image_path, output_image_path, left_eye_rectangle, right_eye_rectangle, mouth_rectangle):
+def apply_thatcher_effect_on_image(input_image_path, output_image_path, output_nonflip_image_path, left_eye_rectangle, right_eye_rectangle, mouth_rectangle):
 	image = cv2.imread(input_image_path)
 	flip_subimage_ellipse_vertically_with_border_softening(image, left_eye_rectangle[0][0] - 5, left_eye_rectangle[0][1] - 6, left_eye_rectangle[1][0] + 7, left_eye_rectangle[1][1] + 3)
 	flip_subimage_ellipse_vertically_with_border_softening(image, right_eye_rectangle[0][0] - 5, right_eye_rectangle[0][1] - 3, right_eye_rectangle[1][0] + 7, right_eye_rectangle[1][1] + 6)
 	flip_subimage_ellipse_vertically_with_border_softening(image, mouth_rectangle[0][0] - 4, mouth_rectangle[0][1] - 5, mouth_rectangle[1][0] + 3, mouth_rectangle[1][1] + 5)
+	cv2.imwrite(output_nonflip_image_path, image)
 	image = cv2.flip(image, 0)
 	cv2.imwrite(output_image_path, image)
 
@@ -122,13 +124,14 @@ def main():
 				print("Not found")
 			continue
 		output_file_path = join(OUTPUT_IMAGES_DIRECTORY_PATH, filename)
+		output_nonflip_image_path = join(OUTPUT_NONFLIP_IMAGE_PATH, filename)
 		image_facial_landmarks = get_image_facial_landmarks(input_file_path)
 		if not image_facial_landmarks or len(image_facial_landmarks) == 0 or len(image_facial_landmarks) != 68:
 			continue
 		left_eye_rectangle = get_bounding_rectangle(image_facial_landmarks[36:42])
 		right_eye_rectangle = get_bounding_rectangle(image_facial_landmarks[42:48])
 		mouth_rectangle = get_bounding_rectangle(image_facial_landmarks[48:68])
-		apply_thatcher_effect_on_image(input_file_path, output_file_path, left_eye_rectangle, right_eye_rectangle, mouth_rectangle)
+		apply_thatcher_effect_on_image(input_file_path, output_file_path, output_nonflip_image_path, left_eye_rectangle, right_eye_rectangle, mouth_rectangle)
 		if PRINT_LOG and i % PRINT_LOG_PERIOD == 0:
 			print("Done")
 
