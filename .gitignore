@@ -253,3 +253,5 @@ output_nonflip_images/
 
 # Pretrained model / large data
 shape_predictor_68_face_landmarks.dat
+
+.code-workspace
