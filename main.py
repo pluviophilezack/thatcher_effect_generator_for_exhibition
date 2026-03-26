@@ -1,6 +1,9 @@
+import os
 from os import listdir, mkdir
 from os.path import isfile, join
 from math import inf
+from capture_photo import capture_photo
+
 
 from facial_landmark_detection import get_image_facial_landmarks
 import cv2
@@ -113,6 +116,11 @@ def apply_thatcher_effect_on_image(input_image_path, output_image_path, output_n
 
 
 def main():
+	capture_photo()
+
+	os.makedirs(OUTPUT_IMAGES_DIRECTORY_PATH, exist_ok=True)
+	os.makedirs(OUTPUT_NONFLIP_IMAGE_PATH, exist_ok=True)
+
 	i = 0
 	for filename in listdir(INPUT_IMAGES_DIRECTORY_PATH):
 		i += 1
@@ -126,8 +134,16 @@ def main():
 		output_file_path = join(OUTPUT_IMAGES_DIRECTORY_PATH, filename)
 		output_nonflip_image_path = join(OUTPUT_NONFLIP_IMAGE_PATH, filename)
 		image_facial_landmarks = get_image_facial_landmarks(input_file_path)
-		if not image_facial_landmarks or len(image_facial_landmarks) == 0 or len(image_facial_landmarks) != 68:
+		if not image_facial_landmarks or len(image_facial_landmarks) == 0:
+			print(f"❌ error: Not detected face in {filename}")
 			continue
+
+		
+		# Catch multiple faces
+		if len(image_facial_landmarks) != 68:
+			faces = len(image_facial_landmarks)/68
+			print(f"⚠️ warning: Get {len(image_facial_landmarks)} points in {filename}. Get {faces} faces).")
+
 		left_eye_rectangle = get_bounding_rectangle(image_facial_landmarks[36:42])
 		right_eye_rectangle = get_bounding_rectangle(image_facial_landmarks[42:48])
 		mouth_rectangle = get_bounding_rectangle(image_facial_landmarks[48:68])
