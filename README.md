@@ -1,6 +1,7 @@
 # Thatcher Effect Dataset Generator
 
-Using OpenCV to apply [Thatcher effect](https://en.wikipedia.org/wiki/Thatcher_effect) on a set of face images
+Take a photo with your divice and using OpenCV to apply [Thatcher effect](https://en.wikipedia.org/wiki/Thatcher_effect) on a set of face images.
+
 
 ## Example
 
@@ -16,17 +17,20 @@ Turn the output images upside-down to notice changes.
 
 ## Run
 
-1. Put some image files inside _input_images_ directory (some samples from [CelebA dataset](https://www.kaggle.com/jessicali9530/celeba-dataset) are already there).
-2. You can change _main.py_ constants if you want.
-3. Use Python 3 to run the program:
+1. Put some image files inside _input_images_ directory
+2. Use Python 3 to run the program:
 
 ```bash
 python3 main.py
 ```
 
-It reads _input_files_ directory files and writes to _output_files_ directory.
+It reads _input_files_ directory files and writes to _output_files_ directory and _output_nonflip_images directory.
 
 ## See Also
 
 - [Large-scale CelebFaces Attributes (CelebA) Dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
 - [Thatcher Effect Illusion](http://thatchereffect.com/)
+
+## Credit
+
+This repo originally clone from https://github.com/Erfaniaa/thatcher-effect-dataset-generator.

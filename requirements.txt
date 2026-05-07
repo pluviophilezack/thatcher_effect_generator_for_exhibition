@@ -1,0 +1,9 @@
+# Base requirements for Thatcher effect generator
+# Pin versions after verifying environment (e.g., `pip freeze > requirements.txt`)
+opencv-python
+pandas
+imutils
+numpy
+dlib
+matplotlib
+Pillow
